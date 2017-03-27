@@ -1,0 +1,15 @@
+{
+  "name": "seedsplit",
+  "version": "0.0.1",
+  "description": "Use shamirs secret sharing scheme to split a seed for crypto wallets to multiple seeds.",
+  "main": "lib/seedsplit.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Unlicense",
+  "dependencies": {
+    "bip39": "^2.3.0",
+    "secrets.js": "^0.1.8"
+  }
+}
