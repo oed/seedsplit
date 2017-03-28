@@ -8,8 +8,12 @@
   },
   "author": "oed",
   "license": "Unlicense",
+  "bin": {
+    "seedsplit": "./bin/cli.js"
+  },
   "dependencies": {
     "bip39": "^2.3.0",
+    "prompt": "^1.0.0",
     "secrets.js": "^0.1.8"
   },
   "devDependencies": {
