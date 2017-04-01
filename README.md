@@ -29,4 +29,4 @@ $ npm test
 ```
 
 ## Acknowledgments
-Thanks to Christian Lundkvist for the idea of using encoded the shards to mnemonics.
+Thanks to Christian Lundkvist for the idea of encoding the shards to mnemonics.
