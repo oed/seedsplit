@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "bip39": "^2.3.0",
+    "commander": "^2.9.0",
     "prompt": "^1.0.0",
     "secrets.js": "^0.1.8"
   },
