@@ -22,6 +22,12 @@ describe('seedsplit', () => {
     shardsList2 = testCorrectSplit(twentyfourWordSeeds, 5, 3)
     shardsList3 = testCorrectSplit(twelveWordSeeds, 3, 2)
     shardsList4 = testCorrectSplit(twentyfourWordSeeds, 3, 2)
+    testCorrectSplit(twelveWordSeeds, 2, 2)
+    testCorrectSplit(twelveWordSeeds, 4, 2)
+    testCorrectSplit(twelveWordSeeds, 6, 2)
+    testCorrectSplit(twelveWordSeeds, 7, 2)
+    testCorrectSplit(twelveWordSeeds, 8, 2)
+    testCorrectSplit(twelveWordSeeds, 9, 2)
     done()
   })
 
