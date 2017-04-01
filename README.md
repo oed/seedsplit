@@ -4,6 +4,11 @@ Seedsplit lets you split a mnemonic seed into a selected number of shards which 
 ## Why?
 If you use a hardware wallet like Trezor or Ledger you get a mnemonic seed that can be used to recover your device in case of loss or breakage. After you have written this seed down you obviously need to keep it very safe, but how? Some people put it in a safety deposit box in their bank. However, this gives you have a trust issue again, which is what you where trying to avoid. With seedsplit you can split your seed into multiple mnemonics that you can had out to your friends and family. They can only recreate your seed if some of them come together to do so.
 
+## Installation
+```
+$ npm i -g seedsplit
+```
+
 ## Example usage
 To split the mnemonic seed:
 ```
