@@ -13,17 +13,23 @@ $ npm i -g seedsplit
 ```
 
 ## Example usage
-To split the mnemonic seed:
+To split the mnemonic seed (`subway allow sketch yard proof apart world affair awful crop jealous bar` is used in the example):
 ```
 $ seedsplit split -t 2 -s 3
+Enter seed mnemonic:  
+divorce husband dawn found essence field slim cycle warm claim empower artist caution merit
+divorce object rule lemon possible public frozen expire twin evidence slim photo ivory leader
+divorce wasp dentist company immune aim solve improve train hollow phone siren run spirit
 ```
-You will now be prompted for a seed mnemonic.
+Note that when you enter the seed no input will be displayed
 
 To combine mnemonics to get a seed:
 ```
 $ seedsplit combine -t 2
+Enter shard mnemonic:  divorce object rule lemon possible public frozen expire twin evidence slim photo ivory leader
+Enter shard mnemonic:  divorce wasp dentist company immune aim solve improve train hollow phone siren run spirit
+subway allow sketch yard proof apart world affair awful crop jealous bar
 ```
-You will be prompted for t number of mnemonics.
 
 ## Tests
 To run tests:
