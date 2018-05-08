@@ -12,10 +12,10 @@
     "seedsplit": "./bin/cli.js"
   },
   "dependencies": {
-    "bip39": "^2.3.0",
+    "bip39": "^2.5.0",
     "commander": "^2.9.0",
     "prompt": "^1.0.0",
-    "secrets.js": "git+https://github.com/oed/secrets.js"
+    "shamirsecretsharing": "github:dsprenkels/sss-node#release-0.x"
   },
   "devDependencies": {
     "chai": "^3.5.0",

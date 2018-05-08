@@ -17,18 +17,27 @@ describe('seedsplit', () => {
     twentyfourWordSeeds = arr.map(e => bip39.generateMnemonic(256))
   })
 
-  it('should create the correct number of shards', (done) => {
-    shardsList1 = testCorrectSplit(twelveWordSeeds, 5, 3)
-    shardsList2 = testCorrectSplit(twentyfourWordSeeds, 5, 3)
-    shardsList3 = testCorrectSplit(twelveWordSeeds, 3, 2)
-    shardsList4 = testCorrectSplit(twentyfourWordSeeds, 3, 2)
-    testCorrectSplit(twelveWordSeeds, 2, 2)
-    testCorrectSplit(twelveWordSeeds, 4, 2)
-    testCorrectSplit(twelveWordSeeds, 6, 2)
-    testCorrectSplit(twelveWordSeeds, 7, 2)
-    testCorrectSplit(twelveWordSeeds, 8, 2)
-    testCorrectSplit(twelveWordSeeds, 9, 2)
-    done()
+  it('should create the correct number of shards', async () => {
+    let results = []
+    results.push(testCorrectSplit(twelveWordSeeds, 5, 3))
+    results.push(testCorrectSplit(twentyfourWordSeeds, 5, 3))
+    results.push(testCorrectSplit(twelveWordSeeds, 3, 2))
+    results.push(testCorrectSplit(twentyfourWordSeeds, 3, 2))
+    results.push(testCorrectSplit(twelveWordSeeds, 2, 2))
+    results.push(testCorrectSplit(twelveWordSeeds, 4, 2))
+    results.push(testCorrectSplit(twelveWordSeeds, 6, 2))
+    results.push(testCorrectSplit(twelveWordSeeds, 7, 2))
+    results.push(testCorrectSplit(twelveWordSeeds, 8, 2))
+    results.push(testCorrectSplit(twelveWordSeeds, 9, 2))
+    results.push(testCorrectSplit(twelveWordSeeds, 255, 127))
+    results.push(testCorrectSplit(twentyfourWordSeeds, 255, 127))
+
+    shardsList1 = await results[0]
+    shardsList2 = await results[1]
+    shardsList3 = await results[2]
+    shardsList4 = await results[3]
+
+    return Promise.all(results)
   })
 
   it('should throw if threshold > shards', (done) => {
@@ -52,7 +61,7 @@ describe('seedsplit', () => {
     done()
   }).timeout(4000)
 
-  it('should not give correct seed with a combination of to few shards', (done) => {
+  it('should not give correct seed with a combination of too few shards', (done) => {
     testInsufficientNumShards(shardsList1, twelveWordSeeds, 1)
     testInsufficientNumShards(shardsList2, twentyfourWordSeeds, 1)
     testInsufficientNumShards(shardsList1, twelveWordSeeds, 2)
@@ -68,10 +77,12 @@ function testCorrectSplit(wordSeeds, numShards, threshold) {
   let shardsList = []
   for (const ws of wordSeeds) {
     let shards = seedsplit.split(ws, numShards, threshold)
-    assert.equal(shards.length, numShards, 'should have created right number of shares')
-    shardsList.push(shards)
+    shardsList.push(shards.then((x) => {
+      assert.equal(x.length, numShards, 'should have created right number of shares')
+      return x
+      }))
   }
-  return shardsList
+  return Promise.all(shardsList)
 }
 
 function testSufficientNumShards(shardsList, wordSeeds, numShards) {
@@ -79,7 +90,7 @@ function testSufficientNumShards(shardsList, wordSeeds, numShards) {
     let cmbs = Combinatorics.combination(shardsList[i], numShards)
     while (cmb = cmbs.next()) {
       let combination = seedsplit.combine(cmb)
-      assert.equal(combination, wordSeeds[i])
+      combination.then((x) => assert.equal(x, wordSeeds[i]))
     }
   }
 }
@@ -95,7 +106,7 @@ function testInsufficientNumShards(shardsList, wordSeeds, numShards) {
         // only throws when decoded hex is not valid
         assert.equal(e.message, 'Could not combine the given mnemonics')
       }
-      assert.notEqual(combination, wordSeeds[i])
+      combination.then((x) => assert.notEqual(x, wordSeeds[i]))
     }
   }
 }

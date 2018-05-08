@@ -27,7 +27,7 @@ function split({ threshold, shards }) {
   }
   handlePrompt(prompts.seed, result => {
     let shardMnemonics = seedsplit.split(result.seed, shards, threshold)
-    console.log(shardMnemonics.join('\n'))
+    shardMnemonics.then((x) => console.log(x.join('\n')))
   })
 }
 
@@ -38,7 +38,7 @@ function combine({ threshold }) {
   }
   getMnemonics([], threshold, mnemonics => {
     let seedMnemonic = seedsplit.combine(mnemonics)
-    console.log(seedMnemonic)
+    seedMnemonic.then((x) => console.log(x))
   })
 }
 

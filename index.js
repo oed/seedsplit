@@ -8,9 +8,11 @@ console.log(m1)
 
 let sm = seedsplit.split(m1, 3, 2)
 
-console.log(sm)
+sm.then((x) => console.log(x))
 
-let m2 = seedsplit.combine(sm.slice(1))
+let m2 = sm.then((x) => seedsplit.combine(x.slice(1)))
 
-console.log(m2)
-console.log('Is correct:', m1 === m2)
+m2.then((x) => {
+  console.log(x)
+  console.log('Is correct:', m1 === x)
+})
