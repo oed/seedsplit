@@ -37,7 +37,7 @@ describe('seedsplit', () => {
     shardsList3 = await results[2]
     shardsList4 = await results[3]
 
-    return Promise.all(results)
+    await Promise.all(results)
   })
 
   it('should throw if threshold > shards', async () => {
@@ -51,27 +51,32 @@ describe('seedsplit', () => {
   })
 
   it('should give the correct seed with any combination of the right number of shards', async () => {
-    await testSufficientNumShards(shardsList1, twelveWordSeeds, 3)
-    await testSufficientNumShards(shardsList2, twentyfourWordSeeds, 3)
-    await testSufficientNumShards(shardsList1, twelveWordSeeds, 4)
-    await testSufficientNumShards(shardsList2, twentyfourWordSeeds, 4)
-    await testSufficientNumShards(shardsList1, twelveWordSeeds, 5)
-    await testSufficientNumShards(shardsList2, twentyfourWordSeeds, 5)
+    let results = []
+    results.push(testSufficientNumShards(shardsList1, twelveWordSeeds, 3))
+    results.push(testSufficientNumShards(shardsList2, twentyfourWordSeeds, 3))
+    results.push(testSufficientNumShards(shardsList1, twelveWordSeeds, 4))
+    results.push(testSufficientNumShards(shardsList2, twentyfourWordSeeds, 4))
+    results.push(testSufficientNumShards(shardsList1, twelveWordSeeds, 5))
+    results.push(testSufficientNumShards(shardsList2, twentyfourWordSeeds, 5))
 
-    await testSufficientNumShards(shardsList3, twelveWordSeeds, 2)
-    await testSufficientNumShards(shardsList4, twentyfourWordSeeds, 2)
-    await testSufficientNumShards(shardsList3, twelveWordSeeds, 3)
-    await testSufficientNumShards(shardsList4, twentyfourWordSeeds, 3)
+    results.push(testSufficientNumShards(shardsList3, twelveWordSeeds, 2))
+    results.push(testSufficientNumShards(shardsList4, twentyfourWordSeeds, 2))
+    results.push(testSufficientNumShards(shardsList3, twelveWordSeeds, 3))
+    results.push(testSufficientNumShards(shardsList4, twentyfourWordSeeds, 3))
+
+    await Promise.all(results)
   }).timeout(4000)
 
   it('should not give correct seed with a combination of too few shards', async () => {
-    await testInsufficientNumShards(shardsList1, twelveWordSeeds, 1)
-    await testInsufficientNumShards(shardsList2, twentyfourWordSeeds, 1)
-    await testInsufficientNumShards(shardsList1, twelveWordSeeds, 2)
-    await testInsufficientNumShards(shardsList2, twentyfourWordSeeds, 2)
+    let results = []
+    results.push(testInsufficientNumShards(shardsList1, twelveWordSeeds, 1))
+    results.push(testInsufficientNumShards(shardsList2, twentyfourWordSeeds, 1))
+    results.push(testInsufficientNumShards(shardsList1, twelveWordSeeds, 2))
+    results.push(testInsufficientNumShards(shardsList2, twentyfourWordSeeds, 2))
 
-    await testInsufficientNumShards(shardsList3, twelveWordSeeds, 1)
-    await testInsufficientNumShards(shardsList4, twentyfourWordSeeds, 1)
+    results.push(testInsufficientNumShards(shardsList3, twelveWordSeeds, 1))
+    results.push(testInsufficientNumShards(shardsList4, twentyfourWordSeeds, 1))
+    await Promise.all(results)
   })
 })
 
