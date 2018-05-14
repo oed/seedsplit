@@ -25,9 +25,9 @@ function split({ threshold, shards }) {
     console.log('Please specify threshold and shards')
     return
   }
-  handlePrompt(prompts.seed, result => {
-    let shardMnemonics = seedsplit.split(result.seed, shards, threshold)
-    shardMnemonics.then((x) => console.log(x.join('\n')))
+  handlePrompt(prompts.seed, async result => {
+    let shardMnemonics = await seedsplit.split(result.seed, shards, threshold)
+    console.log(shardMnemonics.join('\n'))
   })
 }
 
@@ -36,9 +36,9 @@ function combine({ threshold }) {
     console.log('Please specify threshold')
     return
   }
-  getMnemonics([], threshold, mnemonics => {
-    let seedMnemonic = seedsplit.combine(mnemonics)
-    seedMnemonic.then((x) => console.log(x))
+  getMnemonics([], threshold, async mnemonics => {
+    let seedMnemonic = await seedsplit.combine(mnemonics)
+    console.log(seedMnemonic)
   })
 }
 

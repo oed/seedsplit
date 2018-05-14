@@ -40,73 +40,73 @@ describe('seedsplit', () => {
     return Promise.all(results)
   })
 
-  it('should throw if threshold > shards', (done) => {
-    let fn = () => seedsplit.split(twelveWordSeeds[0], 3, 4)
-    assert.throws(fn)
-    done()
+  it('should throw if threshold > shards', async () => {
+    let didThrow = false
+    try {
+      await seedsplit.split(twelveWordSeeds[0], 3, 4)
+    } catch (e) {
+      didThrow = true
+    }
+    assert.isTrue(didThrow)
   })
 
-  it('should give the correct seed with any combination of the right number of shards', (done) => {
-    testSufficientNumShards(shardsList1, twelveWordSeeds, 3)
-    testSufficientNumShards(shardsList2, twentyfourWordSeeds, 3)
-    testSufficientNumShards(shardsList1, twelveWordSeeds, 4)
-    testSufficientNumShards(shardsList2, twentyfourWordSeeds, 4)
-    testSufficientNumShards(shardsList1, twelveWordSeeds, 5)
-    testSufficientNumShards(shardsList2, twentyfourWordSeeds, 5)
+  it('should give the correct seed with any combination of the right number of shards', async () => {
+    await testSufficientNumShards(shardsList1, twelveWordSeeds, 3)
+    await testSufficientNumShards(shardsList2, twentyfourWordSeeds, 3)
+    await testSufficientNumShards(shardsList1, twelveWordSeeds, 4)
+    await testSufficientNumShards(shardsList2, twentyfourWordSeeds, 4)
+    await testSufficientNumShards(shardsList1, twelveWordSeeds, 5)
+    await testSufficientNumShards(shardsList2, twentyfourWordSeeds, 5)
 
-    testSufficientNumShards(shardsList3, twelveWordSeeds, 2)
-    testSufficientNumShards(shardsList4, twentyfourWordSeeds, 2)
-    testSufficientNumShards(shardsList3, twelveWordSeeds, 3)
-    testSufficientNumShards(shardsList4, twentyfourWordSeeds, 3)
-    done()
+    await testSufficientNumShards(shardsList3, twelveWordSeeds, 2)
+    await testSufficientNumShards(shardsList4, twentyfourWordSeeds, 2)
+    await testSufficientNumShards(shardsList3, twelveWordSeeds, 3)
+    await testSufficientNumShards(shardsList4, twentyfourWordSeeds, 3)
   }).timeout(4000)
 
-  it('should not give correct seed with a combination of too few shards', (done) => {
-    testInsufficientNumShards(shardsList1, twelveWordSeeds, 1)
-    testInsufficientNumShards(shardsList2, twentyfourWordSeeds, 1)
-    testInsufficientNumShards(shardsList1, twelveWordSeeds, 2)
-    testInsufficientNumShards(shardsList2, twentyfourWordSeeds, 2)
+  it('should not give correct seed with a combination of too few shards', async () => {
+    await testInsufficientNumShards(shardsList1, twelveWordSeeds, 1)
+    await testInsufficientNumShards(shardsList2, twentyfourWordSeeds, 1)
+    await testInsufficientNumShards(shardsList1, twelveWordSeeds, 2)
+    await testInsufficientNumShards(shardsList2, twentyfourWordSeeds, 2)
 
-    testInsufficientNumShards(shardsList3, twelveWordSeeds, 1)
-    testInsufficientNumShards(shardsList4, twentyfourWordSeeds, 1)
-    done()
+    await testInsufficientNumShards(shardsList3, twelveWordSeeds, 1)
+    await testInsufficientNumShards(shardsList4, twentyfourWordSeeds, 1)
   })
 })
 
-function testCorrectSplit(wordSeeds, numShards, threshold) {
+async function testCorrectSplit(wordSeeds, numShards, threshold) {
   let shardsList = []
   for (const ws of wordSeeds) {
-    let shards = seedsplit.split(ws, numShards, threshold)
-    shardsList.push(shards.then((x) => {
-      assert.equal(x.length, numShards, 'should have created right number of shares')
-      return x
-      }))
+    let shards = await seedsplit.split(ws, numShards, threshold)
+    assert.equal(shards.length, numShards, 'should have created right number of shares')
+    shardsList.push(shards)
   }
-  return Promise.all(shardsList)
+  return shardsList
 }
 
-function testSufficientNumShards(shardsList, wordSeeds, numShards) {
+async function testSufficientNumShards(shardsList, wordSeeds, numShards) {
   for (let i = 0; i < shardsList.length; i++) {
     let cmbs = Combinatorics.combination(shardsList[i], numShards)
     while (cmb = cmbs.next()) {
-      let combination = seedsplit.combine(cmb)
-      combination.then((x) => assert.equal(x, wordSeeds[i]))
+      let combination = await seedsplit.combine(cmb)
+      assert.equal(combination, wordSeeds[i])
     }
   }
 }
 
-function testInsufficientNumShards(shardsList, wordSeeds, numShards) {
+async function testInsufficientNumShards(shardsList, wordSeeds, numShards) {
   for (let i = 0; i < shardsList.length; i++) {
     let cmbs = Combinatorics.combination(shardsList[i], numShards)
     while (cmb = cmbs.next()) {
       let combination
       try {
-        combination = seedsplit.combine(cmb)
+        combination = await seedsplit.combine(cmb)
       } catch (e) {
         // only throws when decoded hex is not valid
         assert.equal(e.message, 'Could not combine the given mnemonics')
       }
-      combination.then((x) => assert.notEqual(x, wordSeeds[i]))
+      assert.notEqual(combination, wordSeeds[i])
     }
   }
 }
