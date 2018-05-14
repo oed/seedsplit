@@ -21,7 +21,7 @@ Enter seed mnemonic:
 2 sorry earn angry best glide purpose chat grant fox wall lawsuit such liquid wrong chimney raven husband boss grass inject they special warm shuffle
 3 bus farm lecture segment shiver adjust rookie beyond blade clutch monster output clog taxi expect embrace omit lazy palace lobster fix budget donate rebel
 ```
-Note that when you enter the seed no input will be displayed
+Note that when you enter the seed no input will be displayed.
 
 To combine mnemonics to get a seed:
 ```

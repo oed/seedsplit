@@ -1,6 +1,6 @@
 {
   "name": "seedsplit",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Use shamirs secret sharing scheme to split a seed mnemonic for crypto wallets to multiple mnemonics.",
   "main": "lib/seedsplit.js",
   "scripts": {
