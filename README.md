@@ -1,3 +1,5 @@
+## ⚠️ Use at your own risk. This library isn't actively maintained and has not been audited.
+
 # seedsplit
 Seedsplit lets you split a mnemonic seed into a selected number of shards which are also encoded as mnemonics. n-of-m shards can then be combined in order to get the initial mnemonic seed. This is accomplished by using Shamirs Secret Sharing. Seedsplit supports 12 and 24 word seeds.
 
